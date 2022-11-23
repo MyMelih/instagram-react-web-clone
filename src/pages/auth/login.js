@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import Input from "components/Input";
 import { AiFillFacebook } from "react-icons/ai";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, Link } from "react-router-dom";
 import { login } from "firebase.js";
 import { Formik, Form } from "formik";
 import { LoginSchema } from "validation";
+import Input from "components/Input";
+import Separator from "components/Separator";
+import Button from "components/Button";
+import { useSelector } from "react-redux";
 
 export default function Login() {
 
-
-    const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
     const location = useLocation();
     const ref = useRef();
-
     const images = [
         'https://www.instagram.com/static/images/homepage/screenshots/screenshot1-2x.png/cfd999368de3.png',
         'https://www.instagram.com/static/images/homepage/screenshots/screenshot2-2x.png/80b8aebdea57.png',
@@ -38,11 +39,12 @@ export default function Login() {
         }
     }, [ref])
 
+    if (user) {
+        return <Navigate to={location.state?.return_url || '/'} replace={true} />
+    }
+
     const hadleSubmit = async (values, actions) => {
         await login(values.username, values.password);
-        navigate(location.state?.return_url || '/', {
-            replace: true
-        })
     }
 
     return (
@@ -74,16 +76,10 @@ export default function Login() {
                             <Form className="grid gap-y-1.5">
                                 <Input name="username" label="Phone number, username or email" />
                                 <Input type="password" name="password" label="Password" />
-                                <button type="submit"
-                                    disabled={!isValid || !dirty || isSubmitting}
-                                    className="h-[30px] rounded mt-1 bg-brand font-medium text-white text-sm disabled:opacity-50">
+                                <Button type="submit" disabled={!isValid || !dirty || isSubmitting}>
                                     Log In
-                                </button>
-                                <div className="flex items-center my-2.5 mb-3.5">
-                                    <div className="h-px bg-gray-300 flex-1" />
-                                    <span className="px-4 text-[13px] text-gray-500 font-semibold">OR</span>
-                                    <div className="h-px bg-gray-300 flex-1" />
-                                </div>
+                                </Button>
+                                <Separator />
                                 <a href="#" className="flex justify-center mb-2.5 items-center gap-x-2 text-sm font-semibold text-facebook">
                                     <AiFillFacebook size={20} />
                                     Log in with facebook
@@ -96,7 +92,7 @@ export default function Login() {
                     </Formik>
                 </div>
                 <div className="bg-white border p-4 text-sm text-center">
-                    Don't have an account? <a href="#" className="font-semibold text-brand">Sign up</a>
+                    Don't have an account? <Link to="/auth/register" className="font-semibold text-brand">Sign up</Link>
                 </div>
             </div>
 
