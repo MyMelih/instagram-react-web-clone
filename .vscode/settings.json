@@ -1,2 +1,11 @@
 {
+  "editor.fontSize": 16,
+  "editor.tabSize": 4,
+  "editor.cursorStyle": "line",
+  "workbench.iconTheme": "icons",
+  "markdown.preview.fontSize": 14,
+  "editor.suggestFontSize": 0,
+  "breadcrumbs.icons": true,
+  "outline.icons": true,
+  "editor.minimap.size": "fit"
 }
