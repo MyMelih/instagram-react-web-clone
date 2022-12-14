@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { logout } from "firebase.js";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
@@ -15,12 +16,12 @@ export default function Header() {
                     <img className="h-[29px]" src="https://www.instagram.com/static/images/web/logged_out_wordmark-2x.png/d2529dbef8ed.png" alt="" />
                 </Link>
                 <Search />
-                <nav className="flex items-center gap-x-6">
+                <nav className="flex items-center gap-x-5">
                     <NavLink to="/" >
-                        <Icon name="home" size={24} />
+                        {({ isActive }) => <Icon name={isActive ? 'home-filled' : 'home'} size={24} />}
                     </NavLink>
-                    <NavLink to="/" >
-                        <Icon name="direct" size={24} />
+                    <NavLink to="/inbox" >
+                        {({ isActive }) => isActive ? <Icon name="direct-filled" size={24} /> : <Icon name="direct" size={24} />}
                     </NavLink>
                     <NavLink to="/" >
                         <Icon name="new" size={24} />
@@ -33,7 +34,10 @@ export default function Header() {
                     </NavLink>
 
                     <NavLink to={`/${user.username}`}>
-                        <img src="/no-avatar.jpeg" alt="" className="w-6 h-6 rounded-full" />
+                        {({ isActive }) => <img src="/no-avatar.jpeg" alt="" className={classNames({
+                            "w-6 h-6 rounded-full": true,
+                            "ring-1 ring-offset-1 ring-black": isActive
+                        })} />}
                     </NavLink>
                 </nav>
             </div>

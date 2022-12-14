@@ -61,7 +61,6 @@ export default function Login() {
                     ))}
                 </div>
             </div>
-
             <div className="w-[350px] grid gab-y-3">
                 <div className="bg-white border px-[40px] pt-10 pb-6">
                     <div className="flex justify-center mb-8">
